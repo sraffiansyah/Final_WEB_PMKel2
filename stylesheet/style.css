@@ -1368,24 +1368,82 @@ input {
 }
 
 .documentation-item {
+    position: relative;
     width: 300px;
     height: 300px;
     border-radius: 12px;
     overflow: hidden;
     box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
-    transition: transform 0.3s ease;
+    cursor: pointer;
+    transition:
+        transform 0.4s cubic-bezier(0.23, 1, 0.32, 1),
+        box-shadow 0.4s cubic-bezier(0.23, 1, 0.32, 1),
+        border-color 0.4s ease;
+    border: 1px solid rgba(148, 137, 121, 0);
 }
 
 .documentation-item:hover {
-    transform: scale(1.05);
+    transform: translateY(-8px) scale(1.03);
+    box-shadow:
+        0 24px 48px -8px rgba(0, 0, 0, 0.5),
+        0 0 0 1.5px rgba(148, 137, 121, 0.45),
+        0 0 28px rgba(148, 137, 121, 0.15);
+}
+
+/* Overlay gelap muncul saat hover */
+.documentation-item::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        180deg,
+        rgba(0,0,0,0) 30%,
+        rgba(34, 40, 49, 0.85) 100%
+    );
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    z-index: 1;
+}
+
+.documentation-item:hover::before {
+    opacity: 1;
+}
+
+/* Label "Lihat Foto" muncul dari bawah */
+.documentation-item::after {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 1rem;
+    text-align: center;
+    color: rgba(148, 137, 121, 1);
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    transform: translateY(100%);
+    transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+    z-index: 2;
+}
+
+.documentation-item:hover::after {
+    transform: translateY(0);
 }
 
 .documentation-img {
-  cursor: pointer;
+    cursor: pointer;
     width: 100%;
     height: 100%;
     object-fit: cover;
     display: block;
+    transition: transform 0.5s cubic-bezier(0.23, 1, 0.32, 1),
+                filter 0.4s ease;
+}
+
+.documentation-item:hover .documentation-img {
+    transform: scale(1.08);
+    filter: brightness(0.8);
 }
 
 
@@ -2099,7 +2157,8 @@ input {
 }
 
 .about-section__theme-tag {
-  display: inline-block;
+  display: block;
+  width: fit-content;
   background: rgba(148, 137, 121, 0.12);
   color: var(--tertiary);
   font-size: var(--font-size-xs);
@@ -2107,7 +2166,7 @@ input {
   padding: 0.4rem 1rem;
   border-radius: var(--radius-full);
   border: 1px solid rgba(148, 137, 121, 0.25);
-  margin-bottom: var(--spacing-xl);
+  margin: 0 auto var(--spacing-lg);
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
