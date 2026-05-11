@@ -239,7 +239,7 @@ function playVideo() {
     embed.scrollIntoView({ behavior: 'smooth', block: 'center' });
   }
 }
- 
+
 const videoThumbnail = document.getElementById('videoThumbnail');
 if (videoThumbnail) {
   videoThumbnail.addEventListener('click', playVideo);
@@ -638,187 +638,187 @@ initSectionGlow();
 /* ============================================= */
 /* 18. CUSTOM CURSOR + TRAIL (Desktop only)     */
 /* ============================================= */
-// function initCustomCursor() {
-//   if (!window.matchMedia('(min-width: 1024px)').matches) return;
-//   if (window.matchMedia('(pointer: coarse)').matches) return; // no touch
+function initCustomCursor() {
+  if (!window.matchMedia('(min-width: 1024px)').matches) return;
+  if (window.matchMedia('(pointer: coarse)').matches) return; // no touch
  
-//   /* --- Inject CSS --- */
-//   const cursorCSS = document.createElement('style');
-//   cursorCSS.textContent = `
-//     *, *::before, *::after { cursor: none !important; }
+  /* --- Inject CSS --- */
+  const cursorCSS = document.createElement('style');
+  cursorCSS.textContent = `
+    *, *::before, *::after { cursor: none !important; }
  
-//     /* Outer ring */
-//     #cur-ring {
-//       position: fixed;
-//       pointer-events: none;
-//       z-index: 99999;
-//       width: 36px; height: 36px;
-//       border-radius: 50%;
-//       border: 1.5px solid rgba(148, 137, 121, 0.75);
-//       transform: translate(-50%, -50%);
-//       transition: width 0.25s ease, height 0.25s ease,
-//                   border-color 0.25s ease, background 0.25s ease,
-//                   opacity 0.25s ease;
-//       will-change: left, top;
-//       mix-blend-mode: normal;
-//       box-shadow: 0 0 12px rgba(148,137,121,0.18);
-//     }
+    /* Outer ring */
+    #cur-ring {
+      position: fixed;
+      pointer-events: none;
+      z-index: 99999;
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      border: 1.5px solid rgba(148, 137, 121, 0.75);
+      transform: translate(-50%, -50%);
+      transition: width 0.25s ease, height 0.25s ease,
+                  border-color 0.25s ease, background 0.25s ease,
+                  opacity 0.25s ease;
+      will-change: left, top;
+      mix-blend-mode: normal;
+      box-shadow: 0 0 12px rgba(148,137,121,0.18);
+    }
  
-//     /* Inner dot */
-//     #cur-dot {
-//       position: fixed;
-//       pointer-events: none;
-//       z-index: 99999;
-//       width: 5px; height: 5px;
-//       border-radius: 50%;
-//       background: rgba(148, 137, 121, 1);
-//       transform: translate(-50%, -50%);
-//       will-change: left, top;
-//       transition: width 0.15s ease, height 0.15s ease, opacity 0.15s ease;
-//       box-shadow: 0 0 6px rgba(148,137,121,0.8);
-//     }
+    /* Inner dot */
+    #cur-dot {
+      position: fixed;
+      pointer-events: none;
+      z-index: 99999;
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      background: rgba(148, 137, 121, 1);
+      transform: translate(-50%, -50%);
+      will-change: left, top;
+      transition: width 0.15s ease, height 0.15s ease, opacity 0.15s ease;
+      box-shadow: 0 0 6px rgba(148,137,121,0.8);
+    }
  
-//     /* Trail dot */
-//     .cur-trail {
-//       position: fixed;
-//       pointer-events: none;
-//       z-index: 99998;
-//       border-radius: 50%;
-//       background: rgba(148, 137, 121, 0.55);
-//       transform: translate(-50%, -50%);
-//       will-change: left, top, opacity, width, height;
-//     }
+    /* Trail dot */
+    .cur-trail {
+      position: fixed;
+      pointer-events: none;
+      z-index: 99998;
+      border-radius: 50%;
+      background: rgba(148, 137, 121, 0.55);
+      transform: translate(-50%, -50%);
+      will-change: left, top, opacity, width, height;
+    }
  
-//     /* Hover over clickables — ring expands + fills slightly */
-//     #cur-ring.cur--hover {
-//       width: 56px; height: 56px;
-//       background: rgba(148, 137, 121, 0.08);
-//       border-color: rgba(148, 137, 121, 1);
-//       box-shadow: 0 0 24px rgba(148,137,121,0.3);
-//     }
-//     #cur-dot.cur--hover {
-//       width: 4px; height: 4px;
-//       opacity: 0.6;
-//     }
+    /* Hover over clickables — ring expands + fills slightly */
+    #cur-ring.cur--hover {
+      width: 56px; height: 56px;
+      background: rgba(148, 137, 121, 0.08);
+      border-color: rgba(148, 137, 121, 1);
+      box-shadow: 0 0 24px rgba(148,137,121,0.3);
+    }
+    #cur-dot.cur--hover {
+      width: 4px; height: 4px;
+      opacity: 0.6;
+    }
  
-//     /* Click burst */
-//     #cur-ring.cur--click {
-//       width: 28px; height: 28px;
-//       background: rgba(148, 137, 121, 0.2);
-//       border-color: rgba(148, 137, 121, 1);
-//       transition: width 0.1s ease, height 0.1s ease, background 0.1s ease;
-//     }
+    /* Click burst */
+    #cur-ring.cur--click {
+      width: 28px; height: 28px;
+      background: rgba(148, 137, 121, 0.2);
+      border-color: rgba(148, 137, 121, 1);
+      transition: width 0.1s ease, height 0.1s ease, background 0.1s ease;
+    }
  
-//     /* Hide when leaving window */
-//     #cur-ring.cur--hidden, #cur-dot.cur--hidden { opacity: 0; }
-//   `;
-//   document.head.appendChild(cursorCSS);
+    /* Hide when leaving window */
+    #cur-ring.cur--hidden, #cur-dot.cur--hidden { opacity: 0; }
+  `;
+  document.head.appendChild(cursorCSS);
  
-//   /* --- Create elements --- */
-//   const ring = document.createElement('div'); ring.id = 'cur-ring';
-//   const dot  = document.createElement('div'); dot.id  = 'cur-dot';
-//   document.body.appendChild(ring);
-//   document.body.appendChild(dot);
+  /* --- Create elements --- */
+  const ring = document.createElement('div'); ring.id = 'cur-ring';
+  const dot  = document.createElement('div'); dot.id  = 'cur-dot';
+  document.body.appendChild(ring);
+  document.body.appendChild(dot);
  
-//   /* --- Trail pool --- */
-//   const TRAIL_COUNT = 10;
-//   const trails = [];
-//   for (let i = 0; i < TRAIL_COUNT; i++) {
-//     const t = document.createElement('div');
-//     t.className = 'cur-trail';
-//     const frac = (i + 1) / TRAIL_COUNT;       // 0.1 … 1.0 (oldest=large, newest=small)
-//     const size = 2 + (1 - frac) * 10;         // 2–12px, newest dots smallest
-//     t.style.width  = size + 'px';
-//     t.style.height = size + 'px';
-//     t.style.opacity = String(frac * 0.55);     // newest faintest relative to order
-//     t.style.left = '-999px';
-//     t.style.top  = '-999px';
-//     document.body.appendChild(t);
-//     trails.push({ el: t, x: -999, y: -999 });
-//   }
+  /* --- Trail pool --- */
+  const TRAIL_COUNT = 10;
+  const trails = [];
+  for (let i = 0; i < TRAIL_COUNT; i++) {
+    const t = document.createElement('div');
+    t.className = 'cur-trail';
+    const frac = (i + 1) / TRAIL_COUNT;       // 0.1 … 1.0 (oldest=large, newest=small)
+    const size = 2 + (1 - frac) * 10;         // 2–12px, newest dots smallest
+    t.style.width  = size + 'px';
+    t.style.height = size + 'px';
+    t.style.opacity = String(frac * 0.55);     // newest faintest relative to order
+    t.style.left = '-999px';
+    t.style.top  = '-999px';
+    document.body.appendChild(t);
+    trails.push({ el: t, x: -999, y: -999 });
+  }
  
-//   /* --- State --- */
-//   let mouseX = -999, mouseY = -999;
-//   let ringX  = -999, ringY  = -999;
+  /* --- State --- */
+  let mouseX = -999, mouseY = -999;
+  let ringX  = -999, ringY  = -999;
  
-//   // History of last N positions for trail
-//   const history = Array(TRAIL_COUNT).fill({ x: -999, y: -999 });
+  // History of last N positions for trail
+  const history = Array(TRAIL_COUNT).fill({ x: -999, y: -999 });
  
-//   /* --- RAF loop --- */
-//   function cursorLoop() {
-//     // Smooth ring follows mouse with lag
-//     ringX += (mouseX - ringX) * 0.14;
-//     ringY += (mouseY - ringY) * 0.14;
+  /* --- RAF loop --- */
+  function cursorLoop() {
+    // Smooth ring follows mouse with lag
+    ringX += (mouseX - ringX) * 0.14;
+    ringY += (mouseY - ringY) * 0.14;
  
-//     ring.style.left = ringX + 'px';
-//     ring.style.top  = ringY + 'px';
+    ring.style.left = ringX + 'px';
+    ring.style.top  = ringY + 'px';
  
-//     // Dot snaps instantly
-//     dot.style.left = mouseX + 'px';
-//     dot.style.top  = mouseY + 'px';
+    // Dot snaps instantly
+    dot.style.left = mouseX + 'px';
+    dot.style.top  = mouseY + 'px';
  
-//     // Shift history
-//     history.unshift({ x: mouseX, y: mouseY });
-//     history.pop();
+    // Shift history
+    history.unshift({ x: mouseX, y: mouseY });
+    history.pop();
  
-//     // Update trail positions (spaced back in time)
-//     trails.forEach((trail, i) => {
-//       // Pick every 2nd history entry for spacing
-//       const h = history[Math.min(i * 2, history.length - 1)];
-//       trail.el.style.left = h.x + 'px';
-//       trail.el.style.top  = h.y + 'px';
-//     });
+    // Update trail positions (spaced back in time)
+    trails.forEach((trail, i) => {
+      // Pick every 2nd history entry for spacing
+      const h = history[Math.min(i * 2, history.length - 1)];
+      trail.el.style.left = h.x + 'px';
+      trail.el.style.top  = h.y + 'px';
+    });
  
-//     requestAnimationFrame(cursorLoop);
-//   }
-//   requestAnimationFrame(cursorLoop);
+    requestAnimationFrame(cursorLoop);
+  }
+  requestAnimationFrame(cursorLoop);
  
-//   /* --- Mouse events --- */
-//   document.addEventListener('mousemove', (e) => {
-//     mouseX = e.clientX;
-//     mouseY = e.clientY;
-//     ring.classList.remove('cur--hidden');
-//     dot.classList.remove('cur--hidden');
-//   }, { passive: true });
+  /* --- Mouse events --- */
+  document.addEventListener('mousemove', (e) => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+    ring.classList.remove('cur--hidden');
+    dot.classList.remove('cur--hidden');
+  }, { passive: true });
  
-//   document.addEventListener('mouseleave', () => {
-//     ring.classList.add('cur--hidden');
-//     dot.classList.add('cur--hidden');
-//     trails.forEach(t => { t.el.style.opacity = '0'; });
-//   });
-//   document.addEventListener('mouseenter', () => {
-//     ring.classList.remove('cur--hidden');
-//     dot.classList.remove('cur--hidden');
-//     trails.forEach((t, i) => {
-//       t.el.style.opacity = String(((i + 1) / TRAIL_COUNT) * 0.55);
-//     });
-//   });
+  document.addEventListener('mouseleave', () => {
+    ring.classList.add('cur--hidden');
+    dot.classList.add('cur--hidden');
+    trails.forEach(t => { t.el.style.opacity = '0'; });
+  });
+  document.addEventListener('mouseenter', () => {
+    ring.classList.remove('cur--hidden');
+    dot.classList.remove('cur--hidden');
+    trails.forEach((t, i) => {
+      t.el.style.opacity = String(((i + 1) / TRAIL_COUNT) * 0.55);
+    });
+  });
  
-//   /* Hover effect on interactive elements */
-//   const hoverTargets = 'a, button, [data-magnetic], .proposal-card, .team-card, .ig-button, input, textarea, select, label, [role="button"]';
-//   document.querySelectorAll(hoverTargets).forEach(el => {
-//     el.addEventListener('mouseenter', () => { ring.classList.add('cur--hover'); dot.classList.add('cur--hover'); });
-//     el.addEventListener('mouseleave', () => { ring.classList.remove('cur--hover'); dot.classList.remove('cur--hover'); });
-//   });
+  /* Hover effect on interactive elements */
+  const hoverTargets = 'a, button, [data-magnetic], .proposal-card, .team-card, .ig-button, input, textarea, select, label, [role="button"]';
+  document.querySelectorAll(hoverTargets).forEach(el => {
+    el.addEventListener('mouseenter', () => { ring.classList.add('cur--hover'); dot.classList.add('cur--hover'); });
+    el.addEventListener('mouseleave', () => { ring.classList.remove('cur--hover'); dot.classList.remove('cur--hover'); });
+  });
  
-//   /* Also handle dynamic elements (proposal cards added via script) */
-//   const hoverObs = new MutationObserver(() => {
-//     document.querySelectorAll(hoverTargets).forEach(el => {
-//       if (el.dataset.cursorBound) return;
-//       el.dataset.cursorBound = '1';
-//       el.addEventListener('mouseenter', () => { ring.classList.add('cur--hover'); dot.classList.add('cur--hover'); });
-//       el.addEventListener('mouseleave', () => { ring.classList.remove('cur--hover'); dot.classList.remove('cur--hover'); });
-//     });
-//   });
-//   hoverObs.observe(document.body, { childList: true, subtree: true });
+  /* Also handle dynamic elements (proposal cards added via script) */
+  const hoverObs = new MutationObserver(() => {
+    document.querySelectorAll(hoverTargets).forEach(el => {
+      if (el.dataset.cursorBound) return;
+      el.dataset.cursorBound = '1';
+      el.addEventListener('mouseenter', () => { ring.classList.add('cur--hover'); dot.classList.add('cur--hover'); });
+      el.addEventListener('mouseleave', () => { ring.classList.remove('cur--hover'); dot.classList.remove('cur--hover'); });
+    });
+  });
+  hoverObs.observe(document.body, { childList: true, subtree: true });
  
-//   /* Click burst */
-//   document.addEventListener('mousedown', () => ring.classList.add('cur--click'));
-//   document.addEventListener('mouseup',   () => ring.classList.remove('cur--click'));
-// }
- 
-// initCustomCursor();
- 
+  /* Click burst */
+  document.addEventListener('mousedown', () => ring.classList.add('cur--click'));
+  document.addEventListener('mouseup',   () => ring.classList.remove('cur--click'));
+}
+
+initCustomCursor();
+
 /* ============================================= */
 /* 19. DOC FAN CARD — Spread on hover           */
 /* ============================================= */
@@ -854,7 +854,124 @@ initSectionGlow();
 })();
  
 /* ============================================= */
-/* 19. CONSOLE WELCOME                           */
+/* 20. DOCUMENTATION 3D CAROUSEL                 */
+/* ============================================= */
+(function initDocCarousel() {
+  const wrapper = document.getElementById('doc-carousel-wrapper');
+  const scene   = document.getElementById('doc-carousel-scene');
+  if (!wrapper || !scene) return;
+ 
+  const cards   = Array.from(scene.querySelectorAll('.doc-carousel-card'));
+  const dots    = Array.from(document.querySelectorAll('.doc-carousel-dot'));
+  const btnPrev = document.getElementById('doc-prev');
+  const btnNext = document.getElementById('doc-next');
+  const TOTAL   = cards.length;
+  const INTERVAL_MS = 2400;
+ 
+  let current  = 0;
+  let timer    = null;
+  let paused   = false;
+ 
+  /* ----- Layout config per position offset ----- */
+  /*
+    offset: 0  = center (active)
+    offset: 1  = right 1
+    offset: 2  = far right
+    offset:-1  = left 1
+    offset:-2  = far left
+  */
+  function getConfig(offset) {
+    const abs = Math.abs(offset);
+    const sign = offset >= 0 ? 1 : -1;
+    if (abs === 0) {
+      return { tx: 0, tz: 0, ry: 0, scale: 1, opacity: 1, zIndex: 10 };
+    } else if (abs === 1) {
+      return { tx: sign * 280, tz: -120, ry: sign * -28, scale: 0.78, opacity: 0.68, zIndex: 7 };
+    } else {
+      return { tx: sign * 480, tz: -280, ry: sign * -42, scale: 0.58, opacity: 0.32, zIndex: 4 };
+    }
+  }
+ 
+  function applyLayout() {
+    cards.forEach((card, i) => {
+      // Calculate offset from current (modular, wrapping)
+      let raw = i - current;
+      // Wrap to range [-floor(TOTAL/2), floor(TOTAL/2)]
+      if (raw > Math.floor(TOTAL / 2))  raw -= TOTAL;
+      if (raw < -Math.floor(TOTAL / 2)) raw += TOTAL;
+ 
+      // Only show up to 2 positions each side, hide the rest
+      const visible = Math.abs(raw) <= 2;
+      const cfg = getConfig(raw);
+ 
+      card.style.transform = visible
+        ? `translateX(${cfg.tx}px) translateZ(${cfg.tz}px) rotateY(${cfg.ry}deg) scale(${cfg.scale})`
+        : `translateX(${raw > 0 ? 600 : -600}px) translateZ(-400px) scale(0.4)`;
+ 
+      card.style.opacity  = visible ? String(cfg.opacity) : '0';
+      card.style.zIndex   = String(cfg.zIndex);
+      card.style.pointerEvents = raw === 0 ? 'auto' : 'none';
+      card.classList.toggle('is-active', raw === 0);
+    });
+ 
+    // Dots
+    dots.forEach((d, i) => d.classList.toggle('active', i === current));
+  }
+ 
+  function goTo(index) {
+    current = ((index % TOTAL) + TOTAL) % TOTAL;
+    applyLayout();
+  }
+ 
+  function next() { goTo(current + 1); }
+  function prev() { goTo(current - 1); }
+ 
+  function startTimer() {
+    clearInterval(timer);
+    timer = setInterval(() => { if (!paused) next(); }, INTERVAL_MS);
+  }
+ 
+  function stopTimer()  { clearInterval(timer); }
+ 
+  // Init
+  applyLayout();
+  startTimer();
+ 
+  // Nav buttons
+  btnNext?.addEventListener('click', () => { next(); startTimer(); });
+  btnPrev?.addEventListener('click', () => { prev(); startTimer(); });
+ 
+  // Dots
+  dots.forEach((dot) => {
+    dot.addEventListener('click', () => {
+      goTo(Number(dot.dataset.dot));
+      startTimer();
+    });
+  });
+ 
+  // Pause on hover
+  wrapper.addEventListener('mouseenter', () => { paused = true; });
+  wrapper.addEventListener('mouseleave', () => { paused = false; });
+ 
+  // Touch/swipe support
+  let touchStartX = 0;
+  wrapper.addEventListener('touchstart', (e) => {
+    touchStartX = e.changedTouches[0].clientX;
+  }, { passive: true });
+  wrapper.addEventListener('touchend', (e) => {
+    const dx = e.changedTouches[0].clientX - touchStartX;
+    if (Math.abs(dx) > 40) {
+      dx < 0 ? next() : prev();
+      startTimer();
+    }
+  }, { passive: true });
+ 
+  // Responsive: recalculate on resize
+  window.addEventListener('resize', applyLayout, { passive: true });
+})();
+
+/* ============================================= */
+/* 21. CONSOLE WELCOME                           */
 /* ============================================= */
 console.log('%c Kelompok 2 — Pengabdian Masyarakat ', 'background:#948979;color:#222831;font-size:14px;font-weight:bold;padding:8px 16px;border-radius:4px;');
 console.log('✨ Animation System v2.0 loaded');

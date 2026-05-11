@@ -1337,10 +1337,14 @@ input {
 /* ========================================== */
 /* DOCUMENTATION SECTION                      */
 /* ========================================== */
- 
+  
+/* ============================================= */
+/* DOCUMENTATION SECTION — 3D Carousel           */
+/* ============================================= */
 .documentation-section {
-    padding: 60px 20px;
+    padding: 80px 20px 100px;
     background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+    overflow: hidden;
 }
  
 .documentation-container {
@@ -1353,106 +1357,150 @@ input {
     font-weight: 700;
     text-align: center;
     margin-bottom: 1rem;
-    color: var(--primary)
+    color: var(--primary);
 }
  
 .documentation-desc {
     text-align: center;
     color: #cbd5e1;
     font-size: 1.1rem;
-    margin-bottom: 3rem;
+    margin-bottom: 3.5rem;
 }
  
-.documentation-gallery {
+/* ---- Carousel Wrapper ---- */
+.doc-carousel-wrapper {
+    position: relative;
+    width: 100%;
+    height: 380px;
     display: flex;
-    flex-wrap: wrap;
-    gap: 30px;
+    align-items: center;
     justify-content: center;
 }
  
-.mrgn-doc {
-    margin-top: 2rem;
+/* ---- 3D Scene ---- */
+.doc-carousel-scene {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    perspective: 1200px;
+    perspective-origin: center center;
 }
  
-.documentation-item {
-  position: relative;
-  width: 300px;
-  height: 300px;
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
-  cursor: pointer;
-  transition:
-  transform 0.4s cubic-bezier(0.23, 1, 0.32, 1),
-  box-shadow 0.4s cubic-bezier(0.23, 1, 0.32, 1),
-  border-color 0.4s ease;
-  border: 1px solid rgba(148, 137, 121, 0);
-}
- 
-.documentation-item:hover {
-  transform: translateY(-8px) scale(1.03);
-  box-shadow:
-  0 24px 48px -8px rgba(0, 0, 0, 0.5),
-  0 0 0 1.5px rgba(148, 137, 121, 0.45),
-  0 0 28px rgba(148, 137, 121, 0.15);
-}
- 
-/* Overlay gelap muncul saat hover */
-.documentation-item::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    180deg,
-    rgba(0,0,0,0) 30%,
-        rgba(34, 40, 49, 0.85) 100%
-    );
-    opacity: 0;
-    transition: opacity 0.4s ease;
-    z-index: 1;
-}
- 
-.documentation-item:hover::before {
-    opacity: 1;
-}
- 
-/* Label "Lihat Foto" muncul dari bawah */
-.documentation-item::after {
+/* ---- Each Card ---- */
+.doc-carousel-card {
     position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    padding: 1rem;
-    text-align: center;
-    color: rgba(148, 137, 121, 1);
-    font-size: 0.8rem;
-    font-weight: 600;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    transform: translateY(100%);
-    transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
-    z-index: 2;
-}
- 
-.documentation-item:hover::after {
-    transform: translateY(0);
-}
- 
-.documentation-img {
+    top: 50%;
+    left: 50%;
+    width: 360px;
+    height: 270px;
+    margin-top: -135px;
+    margin-left: -180px;
+    border-radius: 14px;
+    overflow: hidden;
+    border: 1.5px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
     cursor: pointer;
+    /* transitions handled by JS for 3D transform */
+    transition:
+        transform 0.75s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+        opacity 0.75s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+        box-shadow 0.75s ease,
+        border-color 0.75s ease;
+    will-change: transform, opacity;
+    backface-visibility: hidden;
+}
+ 
+/* Active / center card */
+.doc-carousel-card.is-active {
+    border-color: rgba(148, 137, 121, 0.55);
+    box-shadow:
+        0 30px 80px rgba(0, 0, 0, 0.6),
+        0 0 40px rgba(148, 137, 121, 0.18);
+    z-index: 10;
+}
+ 
+/* Hover on center card */
+.doc-carousel-card.is-active:hover {
+    box-shadow:
+        0 40px 100px rgba(0, 0, 0, 0.7),
+        0 0 60px rgba(148, 137, 121, 0.28);
+}
+ 
+.doc-carousel-img {
     width: 100%;
     height: 100%;
     object-fit: cover;
     display: block;
-    transition: transform 0.5s cubic-bezier(0.23, 1, 0.32, 1),
-                filter 0.4s ease;
+    pointer-events: none;
+    transition: transform 0.5s cubic-bezier(0.23, 1, 0.32, 1);
 }
  
-.documentation-item:hover .documentation-img {
-    transform: scale(1.08);
-    filter: brightness(0.8);
+.doc-carousel-card.is-active:hover .doc-carousel-img {
+    transform: scale(1.05);
 }
  
+/* ---- Nav Buttons ---- */
+.doc-carousel-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: rgba(34, 40, 49, 0.75);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    color: rgba(255, 255, 255, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 20;
+    transition:
+        background 0.25s ease,
+        border-color 0.25s ease,
+        color 0.25s ease,
+        transform 0.25s ease;
+}
+ 
+.doc-carousel-btn:hover {
+    background: rgba(148, 137, 121, 0.25);
+    border-color: rgba(148, 137, 121, 0.5);
+    color: var(--primary);
+    transform: translateY(-50%) scale(1.08);
+}
+ 
+.doc-carousel-btn--prev { left: 0; }
+.doc-carousel-btn--next { right: 0; }
+ 
+/* ---- Dots ---- */
+.doc-carousel-dots {
+    position: absolute;
+    bottom: -48px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    z-index: 20;
+}
+ 
+.doc-carousel-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.25);
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.3s ease, width 0.3s ease;
+    border-radius: 999px;
+}
+ 
+.doc-carousel-dot.active {
+    background: var(--primary);
+    width: 22px;
+    transform: scaleY(1);
+}
  
 /* ============================================= */
 /* FOOTER                                        */
@@ -1645,12 +1693,7 @@ input {
     color: var(--primary); /* Atau warna tema Anda */
     flex-shrink: 0;
 }
- 
- 
- 
- 
- 
- 
+
 /* ============================================= */
 /* 8. RESPONSIVE - TABLET (768px)               */
 /* ============================================= */
@@ -2840,14 +2883,20 @@ input {
 }
  
 .banner-cards-wrapper {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
   gap: 1.5rem;
   margin-top: 2.5rem;
   width: 100%;
   max-width: 900px;
   margin-left: auto;
   margin-right: auto;
+}
+
+.banner-cards-wrapper .banner-card {
+  flex: 1 1 280px;
+  max-width: 380px;
 }
  
 .banner-card .proposal-card__img-wrap {
@@ -2902,7 +2951,11 @@ input {
     max-width: 100%;
   }
   .banner-cards-wrapper {
-    grid-template-columns: 1fr;
+    justify-content: center;
+  }
+  .banner-cards-wrapper .banner-card {
+    flex: 1 1 100%;
+    max-width: 420px;
   }
   .proposal-container {
     max-width: 100% !important;
@@ -2916,6 +2969,7 @@ input {
 @media (max-width: 768px) {
   .banner-cards-wrapper {
     max-width: 100%;
+    justify-content: center;
   }
 }
  
@@ -3028,10 +3082,14 @@ input {
   }
  
   .banner-cards-wrapper {
-    grid-template-columns: 1fr !important;
+    justify-content: center;
     gap: 1rem;
     max-width: 100% !important;
     margin-top: 1.5rem;
+  }
+  .banner-cards-wrapper .banner-card {
+    flex: 1 1 100%;
+    max-width: 100%;
   }
  
   .proposal-card__img-wrap {
@@ -3132,34 +3190,30 @@ input {
   .team-nim {
     font-size: 0.7rem !important;
   }
-/* Documentation */
+/* Documentation Carousel Tablet */
   .documentation-section {
-    padding: 40px 16px !important;
+    padding: 50px 12px 80px !important;
   }
- 
-  .documentation-gallery {
-    flex-direction: column;
-    align-items: center;
-    gap: 16px;
+
+  .doc-carousel-wrapper {
+    height: 300px;
   }
- 
-  .documentation-item {
-    width: 100% !important;
-    max-width: 380px;
-    height: auto !important;
-    aspect-ratio: 4/3;
+
+  .doc-carousel-card {
+    width: 280px;
+    height: 210px;
+    margin-top: -105px;
+    margin-left: -140px;
   }
- 
-  .documentation-img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
- 
+
   .documentation-title {
     font-size: 1.75rem !important;
   }
+
+  .doc-carousel-btn--prev { left: 0; }
+  .doc-carousel-btn--next { right: 0; }
  
+
   /* Footer */
   .footer__inner {
     flex-direction: column !important;
@@ -3309,32 +3363,36 @@ input {
 }
  
 @media (max-width: 480px) {
-  /* Documentation section tighter on phone */
+  /* Documentation carousel tighter on phone */
   .documentation-section {
-    padding: 32px 14px !important;
+    padding: 40px 8px 70px !important;
   }
- 
-  .documentation-gallery {
-    gap: 12px;
+
+  .doc-carousel-wrapper {
+    height: 240px;
   }
- 
-  .documentation-item {
-    border-radius: 8px;
+
+  .doc-carousel-card {
+    width: 220px;
+    height: 165px;
+    margin-top: -82px;
+    margin-left: -110px;
   }
-  
-  .mrgn-doc {
-      margin-top: 1rem;
+
+  .doc-carousel-btn {
+    width: 36px;
+    height: 36px;
   }
- 
+
   /* About feature boxes stack */
   .about-section__feature-detail {
     font-size: 0.8rem;
   }
- 
+
   .about-section__feature-icon {
     font-size: 1.25rem;
   }
- 
+
   /* Video embed responsive */
   .video-embed-wrapper {
     border-radius: var(--radius-md) !important;
